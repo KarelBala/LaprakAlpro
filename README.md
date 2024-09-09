@@ -1,46 +1,40 @@
-# LaprakAlpro
-Karel Marley Bala Bakior / 71231015
-Buatlah sebuah program untuk melakukan enkripsi kata. Program akan meminta 2 input pengguna: pesan yang ingin dienkripsi dan kata kunci enkripsi. input tidak boleh menggunakan spasi, angka, atau huruf kapital. proses enkripsi ini dilakukan dengan cara mencari nilai dari setiap hurufnya lalu ditambahkan dengan nilai kata kuncinya. 
-Contoh:
+def encrypt_message(message, keyword):
+    # Fungsi untuk mengonversi huruf menjadi nilai (0-25)
+    def char_to_index(c):
+        return ord(c) - ord('a')
 
-Pesan : aku
+    # Fungsi untuk mengonversi nilai (0-25) menjadi huruf
+        return chr(i + ord('a'))
 
-Kata Kunci : de
+    # Validasi input
+    if any(not c.islower() for c in message) or any(not c.islower() for c in keyword):
+        raise ValueError("Input harus berupa huruf kecil tanpa spasi atau angka")
 
-Pesan dan kata kunci akan diubah menjadi angka, dimulai dari 0
+    # Mengubah pesan dan kata kunci menjadi nilai numerik
+    message_values = [char_to_index(c) for c in message]
+    keyword_values = [char_to_index(c) for c in keyword]
 
-"aku"
+    # Enkripsi pesan
+    encrypted_values = []
+    keyword_length = len(keyword_values)
 
-a => 0
+    for i in range(len(message_values)):
+        m_value = message_values[i]
+        k_value = keyword_values[i % keyword_length]
+        new_value = (m_value + k_value) % 26
+        encrypted_values.append(new_value)
 
-k => 10
+    # Mengubah nilai kembali menjadi huruf
+    encrypted_message = ''.join(chr(v + ord('a')) for v in encrypted_values)
+    
+    return encrypted_message
 
-u => 20
+# Minta input dari pengguna
+message = input("Masukkan pesan (huruf kecil tanpa spasi/angka): ")
+keyword = input("Masukkan kata kunci (huruf kecil tanpa spasi/angka): ")
 
-"de"
-
-d => 3
-
-e => 4
-
-kita tambahkan "aku" dengan "de"
-
-"de"
-
-a => 0 + 3 + 4 = 7
-
-k => 10 + 3 + 4 = 17
-
-u => 20 + 3 + 4 = 27 => 1 (Kembali ke 0 ketika lebih ke 26)
-
-Maka:
-
-Kombinasi terakhir kan 7 17 1
-
-7 = h
-
-17 = r
-
-1 = b
-
-Hasil akhir : hrb
+try:
+    encrypted_message = encrypt_message(message, keyword)
+    print("Hasil enkripsi:", encrypted_message)
+except ValueError as e:
+    print(e)
