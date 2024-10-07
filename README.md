@@ -1,48 +1,129 @@
-def lihatData() :
-with open ( 'matkul.json') as datafile:
-data = json. load(datafile)
-print("Data yang sudah ada:")
-for key, value in data.items ():
-print(f' "(key}": ')
-print ("\t{")
-print(f"\t\t"kode": "{value["kode "]}",')
-print(f' \t\t"dosen" : {value["dosen"]},')
-print(f' (t\t"grup": {value["grup"]}')
-print("\t},")
-print()
+class Node:
+    def __init__(self, value):
+        self.next = None
+        self.data = value
 
-def tambahData:
-20
-with open ('matkul.json',)as datafile:
-21
-22
-data = json. load(datafile)
-23
-jumlah_matkul = int(input ("Masukkan jumlah Matkul baru : "))
-for - in range (jumlah_matku1) :
-24
-matkul_baru = input("Masukkan Matkul baru: ")
-25
-kode_baru = input ("masukan kode matkul: ")
-26
-27
-jumlah_dosen = int(input ("Masukan jumlah dosen : "))
-28
-29
-dosen_barul= [input (f"Masukan nama dosen pengajar ke-{i+1}:") for i in range (jumlah_dosen)
-jumlah _grup = int(input("Masukan jumlah grup : "))
-30
-grup_baru = [input (f"Masukan nama grup ke- {i+1} :")for i in range
-31
-data
-[matkul_baru] = {
-(jumlah_grup)]
-32
-"kode": kode_baru,
-33
-"dosen": dosen_baru,
-34
-"grup": grup_baru
-35
-36
-print （"aコ= Data berhasil ditambahkan ==="）
+class SLNC:
+    def __init__(self) -> None:
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    # methods
+    def getLength(self):
+        return self.size
+
+    def writeAllData(self):
+        if self.size == 0:
+            return 'Linked list kosong'
+        else:
+            result = 'Linked List: ' + str(self.size) + ' data: \n'
+            helper = self.head
+            while helper is not None:
+                result += str(helper.data) + ' '
+                helper = helper.next
+            return result.strip()
+
+
+    def insert_head(self, new_data):
+        node_baru = Node(new_data)
+        if self.size == 0:
+            self.head = node_baru
+            self.tail = node_baru
+        else:
+            node_baru.next = self.head
+            self.head = node_baru
+        self.size = self.size + 1
+    
+    def insert_tail(self, new_data):
+        node_baru = Node(new_data)
+        if self.size == 0:
+            self.head = node_baru
+            self.tail = node_baru
+        else:
+            self.tail.next = node_baru
+            self.tail = node_baru
+
+        self.size = self.size + 1
+    
+    def insert_mid(self, new_data, index):
+        if self.size == 0 or index <= 0:
+            self.insert_head(new_data)
+        elif index >= self.size:
+            self.insert_tail(new_data)
+        else:
+            node_baru = Node(new_data)
+            helper = self.head
+            for i in range(index-1):
+                helper = helper.next
+            node_baru.next = helper.next
+            helper.next = node_baru
+            self.size = self.size + 1
+    def delete_head(self):
+        if self.size == 0:
+            return None
+        elif self.size == 1:
+            deleted_node = self.head
+            self.head = None
+            self.tail = None
+            self.size = self.size - 1
+            return deleted_node
+        else:
+            hapus = self.head
+            deleted_node = self.head
+            self.head = self.head.next
+            del hapus
+            self.size = self.size - 1
+            return deleted_node
+            
+    def delete_tail(self):
+        if self.size == 0:
+            return None
+        elif self.size == 1:
+            deleted_node = self.head
+            self.head = None
+            self.tail = None
+            self.size = self.size - 1
+            return deleted_node
+        else:
+            helper = self.head
+            while helper.next != self.tail:
+                helper = helper.next
+            hapus = self.tail
+            deleted_node = self.tail
+            self.tail = helper
+            self.tail.next = None
+            del hapus
+            self.size = self.size - 1
+            return deleted_node
+
+    def delete_mid(self, index):
+        if self.size == 0 or index <= 0:
+            return self.delete_head()
+        elif index >= self.size-1:
+            return self.delete_tail()  
+        else:
+            helper = self.head
+            for i in range(index-1):
+                helper = helper.next
+            hapus = helper.next
+            helper.next = hapus.next
+            deleted_node = hapus
+            del hapus
+            self.size = self.size - 1
+            return deleted_node
+
+    """
+    Method getData(self, index) akan mereturn data dari linked list berdasarkan
+    parameter index. Cara kerjanya hampir sama seperti index pada
+    list biasa.
+    """
+    def getData(self, index):
+        return index
+
+
+    def balikLinkedList(self):
+        prev = None
+        current = self.head
+        while current:
+            pass
