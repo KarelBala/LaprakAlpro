@@ -1,32 +1,16 @@
-class Stack:
-    def __init__(self):
-        self._size = 0
-        self._data = []
-    def getLen(self):
-        return self._size
-    def top(self):
-        if self._size == 0 :
-            return None
-        return self._data[-1]
-    def pop(self):
-        if self._size == 0:
-            return None
-        self._size-=1
-        return self._data.pop()
-    def push(self, data):
-        self._data.append(data)
-        self._size+= 1
-    def printData(self):
-        for i in range(1, self._size+1):
-            print(self._data[-i])
-
-
-# Jika stack ganjil, maka dibulatkan ke bawah.
-# contoh: ada stack dengan anggota 67. maka, fungsi ini akan menghapus 
-# 33 elemen stack paling bawah (karena 67/2 = 33.5, dibulatkan ke bawah = 33).
 def hapusSetengahBawah(stack): 
-    pass
-             
+    half_size = stack.getLen() // 2  # Hitung setengah ukuran, dibulatkan ke bawah
+    temp = []  # List sementara untuk menyimpan elemen stack
+
+    # Simpan semua elemen ke dalam list sementara
+    while stack.getLen() > 0:
+        temp.append(stack.pop())
+
+    # Push kembali elemen yang tersisa ke dalam stack
+    for i in range(len(temp) - half_size):
+        stack.push(temp.pop())
+
+# Contoh penggunaan
 if __name__ == "__main__":
     s = Stack()
     # Isi Stack
@@ -38,7 +22,7 @@ if __name__ == "__main__":
     s.push(5)
 
     # Tampilkan stack sebelum dihapus
-    print("Tampilkan Stack Sebelum Di Hapus : ")
+    print("Tampilkan Stack Sebelum Di Hapus:")
     s.printData()
     print()
     print("Melakukan Penghapusan Stack")
@@ -46,5 +30,5 @@ if __name__ == "__main__":
     # Hapus setengahnya
     hapusSetengahBawah(s)
     # Tampilkan data setelahnya
-    print("Tampilan Stack Setelah Di Hapus : ")
+    print("Tampilan Stack Setelah Di Hapus:")
     s.printData()
