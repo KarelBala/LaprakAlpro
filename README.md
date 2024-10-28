@@ -1,34 +1,49 @@
-def hapusSetengahBawah(stack): 
-    half_size = stack.getLen() // 2  # Hitung setengah ukuran, dibulatkan ke bawah
-    temp = []  # List sementara untuk menyimpan elemen stack
+class Queue:
+    def __init__(self ):
+        self.data = []
+    def enqueue(self,data):
+        self.data.append(data)
+    def is_empty(self):
+        return len(self.data) == 0
+    def dequeue(self):
+        if self.is_empty():
+            return None
+        return self.data.pop(0)
+    def front(self):
+        if self.is_empty():
+            return None
+        return self.data[0]
+    def write_all_data(self):
+        print("Data dalam queue: ")
+        for i,data in enumerate(self.data):
+            print(f"{(i+1)}. {data}")
+    def get_length(self):
+        return len(self.data)
 
-    # Simpan semua elemen ke dalam list sementara
-    while stack.getLen() > 0:
-        temp.append(stack.pop())
+def serobot_antrian(q : Queue, data):
+    pass
+    
 
-    # Push kembali elemen yang tersisa ke dalam stack
-    for i in range(len(temp) - half_size):
-        stack.push(temp.pop())
-
-# Contoh penggunaan
+def get_max(q: Queue):
+    pass
+    
+            
+def main():
+    q = Queue()
+    for i in [1,3,2,4,2,3,6,7]:
+        q.enqueue(i)
+    print("=== Antrian Awal ===")
+    q.write_all_data()
+    print("=== Melakukan Penyerobotan Antrian === ")
+    serobot_antrian(q, 20)
+    serobot_antrian(q, 20)
+    serobot_antrian(q, 40)
+    serobot_antrian(q, 30)
+    print("Antrian sesudah di serobot: ")
+    q.write_all_data()
+    print("Melakukan pencarian data terbeaar: ")
+    print(f"Data terbesar: {get_max(q)} ")
+    print("Pembuktian bahwa data tidak berubah: ")
+    q.write_all_data()
 if __name__ == "__main__":
-    s = Stack()
-    # Isi Stack
-    s.push(1)
-    s.push(1.5)
-    s.push(2)
-    s.push(3)
-    s.push(4)
-    s.push(5)
-
-    # Tampilkan stack sebelum dihapus
-    print("Tampilkan Stack Sebelum Di Hapus:")
-    s.printData()
-    print()
-    print("Melakukan Penghapusan Stack")
-    print()
-    # Hapus setengahnya
-    hapusSetengahBawah(s)
-    # Tampilkan data setelahnya
-    print("Tampilan Stack Setelah Di Hapus:")
-    s.printData()
+    main()
