@@ -1,49 +1,65 @@
-class Queue:
-    def __init__(self ):
-        self.data = []
-    def enqueue(self,data):
-        self.data.append(data)
-    def is_empty(self):
-        return len(self.data) == 0
-    def dequeue(self):
-        if self.is_empty():
-            return None
-        return self.data.pop(0)
-    def front(self):
-        if self.is_empty():
-            return None
-        return self.data[0]
-    def write_all_data(self):
-        print("Data dalam queue: ")
-        for i,data in enumerate(self.data):
-            print(f"{(i+1)}. {data}")
-    def get_length(self):
-        return len(self.data)
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/2Szn5CHd)
+# UG10_Sorting
 
-def serobot_antrian(q : Queue, data):
-    pass
-    
+Buatlah sebuah file python berisi Class PriorityQueueSorted. Fungsi yang harus ada adalah:
 
-def get_max(q: Queue):
-    pass
-    
-            
-def main():
-    q = Queue()
-    for i in [1,3,2,4,2,3,6,7]:
-        q.enqueue(i)
-    print("=== Antrian Awal ===")
-    q.write_all_data()
-    print("=== Melakukan Penyerobotan Antrian === ")
-    serobot_antrian(q, 20)
-    serobot_antrian(q, 20)
-    serobot_antrian(q, 40)
-    serobot_antrian(q, 30)
-    print("Antrian sesudah di serobot: ")
-    q.write_all_data()
-    print("Melakukan pencarian data terbeaar: ")
-    print(f"Data terbesar: {get_max(q)} ")
-    print("Pembuktian bahwa data tidak berubah: ")
-    q.write_all_data()
-if __name__ == "__main__":
-    main()
+  a. is_empty() => melihat apakah Queue kosong atau tidak
+
+  b. len()  => return panjang Queue
+
+  c. remove()   => Menghapus data paling depan
+
+  d. peek()     => Mengambil data paling depan
+
+  e. add()      => Menambah isi Queue, cara pengurutan data menggunakan QUICK SORT dan diurutkan dari angka prioritas terbesar ke terkecil (misal: 1,4,3,6 => jadi 6,4,3,1)
+
+  f. print_all => return isi dari Queue urut dari yang terbesar
+
+
+### TEST CASE
+
+myQueue = PriorityQueueSorted()
+
+myQueue.add('Gian', 2)
+
+myQueue.add('Kezia', 4)
+
+myQueue.print_all()
+
+myQueue.peek()
+
+print()
+
+myQueue.add('Glen', 8)
+
+myQueue.add('Christo', 1)
+
+myQueue.print_all()
+
+myQueue.peek()
+
+print()
+
+print("========REMOVE========")
+
+myQueue.remove()
+
+myQueue.print_all()
+
+print()
+
+myQueue.remove()
+
+myQueue.print_all()
+
+print()
+
+myQueue.remove()
+
+myQueue.print_all()
+
+print()
+
+myQueue.add('Saya', 7)
+
+myQueue.print_all()
