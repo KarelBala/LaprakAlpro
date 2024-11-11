@@ -11,9 +11,9 @@ class PriorityQueueSorted:
         return len(self.queue)
 
     def add(self, item, priority):
-        """Add an item with its priority, then sort the queue using Quick Sort."""
+        """Add an item with its priority, then sort the queue using Quick Sort with partitioning."""
         self.queue.append((item, priority))
-        self.queue = self.quick_sort(self.queue)
+        self.quick_sort(0, len(self.queue) - 1)
 
     def remove(self):
         """Remove the item with the highest priority (first item in the sorted list)."""
@@ -30,14 +30,23 @@ class PriorityQueueSorted:
         for item, priority in self.queue:
             print(item, priority)
 
-    def quick_sort(self, arr):
-        """Quick Sort to sort items by priority in descending order."""
-        if len(arr) <= 1:
-            return arr
-        pivot = arr[0]
-        left = [x for x in arr[1:] if x[1] > pivot[1]]
-        right = [x for x in arr[1:] if x[1] <= pivot[1]]
-        return self.quick_sort(left) + [pivot] + self.quick_sort(right)
+    def quick_sort(self, low, high):
+        """Quick Sort with partition to sort items by priority in descending order."""
+        if low < high:
+            pi = self.partition(low, high)
+            self.quick_sort(low, pi - 1)
+            self.quick_sort(pi + 1, high)
+
+    def partition(self, low, high):
+        """Partition the list around a pivot for quicksort."""
+        pivot = self.queue[high][1]  # using the last element as the pivot
+        i = low - 1
+        for j in range(low, high):
+            if self.queue[j][1] > pivot:  # for descending order
+                i += 1
+                self.queue[i], self.queue[j] = self.queue[j], self.queue[i]
+        self.queue[i + 1], self.queue[high] = self.queue[high], self.queue[i + 1]
+        return i + 1
 
 # Test Case
 myQueue = PriorityQueueSorted()
