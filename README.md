@@ -1,80 +1,79 @@
-class PriorityQueueSorted:
+class HashTable:
     def __init__(self):
-        self.queue = []
+        self.size = 10
+        self.map = [None]*self.size
+    
+    def _get_hash(self, key):
+        hash = 0
+        for char in str(key):
+            hash += ord(char);
+        return hash % self.size
+    
+    def _linear_probing(self, key, index):
+        return (self._get_hash(key)+index) % self.size 
+    
+    def _probing(self, key):
+        for index in range(self.size):
+            probeHash = self._linear_probing(key, index)
+            if (self.map[probeHash]) is None or (self.map[probeHash] == "deleted"):
+                return probeHash
 
-    def is_empty(self):
-        """Check if the queue is empty."""
-        return len(self.queue) == 0
-
-    def __len__(self):
-        """Return the length of the queue."""
-        return len(self.queue)
-
-    def add(self, item, priority):
-        """Add an item with its priority, then sort the queue using Quick Sort with partitioning."""
-        self.queue.append((item, priority))
-        self.quick_sort(0, len(self.queue) - 1)
-
-    def remove(self):
-        """Remove the item with the highest priority (first item in the sorted list)."""
-        if not self.is_empty():
-            return self.queue.pop(0)
-
-    def peek(self):
-        """Return the item with the highest priority without removing it."""
-        if not self.is_empty():
-            print(self.queue[0][0], self.queue[0][1])
+    def add(self, key, value):
+        key_hash = self._get_hash(key)
+        key_value = [key,value]
+        if self.map[key_hash] is not None:
+            key_hash = self._probing(key)
+            if key_hash is None:
+                print("Buku Telpon Penuh")
+                return False
+        
+        self.map[key_hash] = list([key_value])
+        return True
 
     def print_all(self):
-        """Print all items in the queue from highest to lowest priority."""
-        for item, priority in self.queue:
-            print(item, priority)
+        for item in self.map:
+            if item is not None:
+                print(str(item))
+    
+    def get_data(self, key):
+        key_hash = self._get_hash(key)
+        if self.map[key_hash] is not None or self.map[key_hash] == "deleted":
+            for item in self.map[key_hash]:
+                if item[0] == key:
+                    return item[1]
+                return None
+        
+            
+    def resize(self, size):
+        new_map = [None]*size
+        for item in self.map:
+            if item is not None or item == "deleted":
+                for key_value in item:
+                    key_hash = self._get_hash(key_value[0])
+                    new_map[key_hash] = item
+                    self.size = size
+        
 
-    def quick_sort(self, low, high):
-        """Quick Sort with partition to sort items by priority in descending order."""
-        if low < high:
-            pi = self.partition(low, high)
-            self.quick_sort(low, pi - 1)
-            self.quick_sort(pi + 1, high)
+def main():
+    ht : HashTable = HashTable()
+    # isi hash table
+    ht.add(71210689, "Gian")
+    ht.add(71210683, "Yandi")
+    ht.add(71210699, "Andreas")
 
-    def partition(self, low, high):
-        """Partition the list around a pivot for quicksort."""
-        pivot = self.queue[high][1]  # using the last element as the pivot
-        i = low - 1
-        for j in range(low, high):
-            if self.queue[j][1] > pivot:  # for descending order
-                i += 1
-                self.queue[i], self.queue[j] = self.queue[j], self.queue[i]
-        self.queue[i + 1], self.queue[high] = self.queue[high], self.queue[i + 1]
-        return i + 1
+    print("==== HASH TABLE SEBELUM DIRESIZE ====")
+    print()
+    ht.print_all()
+    print(f"mahasiswa dengan NIM 71210683 adalah {ht.get_data(71210683)}")
+    print()
+    # resize hash table
+    ht.resize(3)
 
-# Test Case
-myQueue = PriorityQueueSorted()
+    print("==== HASH TABLE SETELAH DIRESIZE ====")
+    print()
+    ht.print_all()
+    print(f"mahasiswa dengan NIM 71210683 adalah {ht.get_data(71210683)}")
+    
 
-myQueue.add('Gian', 2)
-myQueue.add('Kezia', 4)
-myQueue.print_all()
-myQueue.peek()
-
-print()
-
-myQueue.add('Glen', 8)
-myQueue.add('Christo', 1)
-myQueue.print_all()
-myQueue.peek()
-
-print("\n========REMOVE========")
-myQueue.remove()
-myQueue.print_all()
-
-print()
-myQueue.remove()
-myQueue.print_all()
-
-print()
-myQueue.remove()
-myQueue.print_all()
-
-print()
-myQueue.add('Saya', 7)
-myQueue.print_all()
+if __name__ == "__main__":
+    main()
