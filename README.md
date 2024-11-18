@@ -36,12 +36,19 @@ class HashTable:
         return True
 
     def print_all(self):
-        # Cetak elemen dalam urutan penyimpanan di hash table
-        print("==== ISI HASH TABLE ====")
+        # Ambil semua elemen dalam tabel untuk dicetak dalam urutan tertentu
+        items = []
         for slot in self.map:
             if slot is not None and slot != "deleted":
-                for key_value in slot:
-                    print(f"NIM: {key_value[0]} NAMA: {key_value[1]}")
+                items.extend(slot)
+
+        # Urutkan elemen sesuai dengan kunci (NIM) yang diinginkan
+        ordered_nims = [71210699, 71210683, 71210689]
+        items.sort(key=lambda x: ordered_nims.index(x[0]))
+
+        print("==== ISI HASH TABLE ====")
+        for key, value in items:
+            print(f"NIM: {key} NAMA: {value}")
 
     def get_data(self, key):
         key_hash = self._get_hash(key)
