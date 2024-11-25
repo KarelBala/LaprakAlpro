@@ -1,97 +1,46 @@
-class HashTable:
-    def __init__(self):
-        self.size = 10
-        self.map = [None] * self.size
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/SmSQZwAC)
+# UG 12 Tree
 
-    def _get_hash(self, key):
-        hash = 0
-        for char in str(key):
-            hash += ord(char)
-        return hash % self.size
+## Kerjakanlah pada file main.py
+Pada UG ini, kalian sudah diberikan sebuah class Node yang merepresentasikan sebuah struktur data tree. Kalian juga diberikan sebuah fungsi bernama generate_tree(number). Fungsi ini berfungsi untuk men-generate suatu Tree berdasarkan angka yang dimasukkan sebagai parameter. Fungsi ini tidak usah kalian pikirkan karena fungsi ini hanya untuk mempermudah saat melakukan testing saja.
 
-    def _linear_probing(self, key, index):
-        return (self._get_hash(key) + index) % self.size
+Yang harus kalian lakukan sekarang adalah membuat 2 buah fungsi: yang pertama, fungsi minus_plus. Fungsi ini berfungsi untuk menjumlahkan / mengurangkan semua node yang ada di dalam tree. Jika data ganjil, maka kurangkan, dan jika data genap, maka tambahkan. Misal, jika satu tree mempunyai node - node berikut: 20 2 10 2 5, maka hasil akhirnya adalah 29 (20 + 2 + 10 + 2 - 5). Contoh lainnya, jika suatu tree mempunyai node - node berikut: 23 25 27 26, maka hasil akhirnya adalah -49 (- 23 - 25 - 27 + 26).
 
-    def _probing(self, key):
-        for index in range(self.size):
-            probeHash = self._linear_probing(key, index)
-            if self.map[probeHash] is None or self.map[probeHash] == "deleted":
-                return probeHash
-        return None  # Jika semua slot penuh
+fungsi yang kedua adalah fungsi bernama find_deepest_leaf. Fungsi ini akan mengembalikan kedalaman node paling dalam. Misal, jika ada sebuah tree :
 
-    def add(self, key, value):
-        key_hash = self._get_hash(key)
-        key_value = [key, value]
+![](ss.png)
 
-        if self.map[key_hash] is None:
-            self.map[key_hash] = [key_value]
-        else:
-            key_hash = self._probing(key)
-            if key_hash is None:
-                print("Buku Telpon Penuh")
-                return False
-
-            if self.map[key_hash] is None or self.map[key_hash] == "deleted":
-                self.map[key_hash] = [key_value]
-        return True
-
-    def print_all(self):
-        # Ambil semua elemen dalam tabel untuk dicetak dalam urutan tertentu
-        items = []
-        for slot in self.map:
-            if slot is not None and slot != "deleted":
-                items.extend(slot)
-
-        # Urutkan elemen sesuai dengan kunci (NIM) yang diinginkan
-        ordered_nims = [71210699, 71210683, 71210689]
-        items.sort(key=lambda x: ordered_nims.index(x[0]))
-
-        print("==== ISI HASH TABLE ====")
-        for key, value in items:
-            print(f"NIM: {key} NAMA: {value}")
-
-    def get_data(self, key):
-        key_hash = self._get_hash(key)
-        if self.map[key_hash] is not None:
-            for item in self.map[key_hash]:
-                if item[0] == key:
-                    return item[1]
-        return None
-
-    def resize(self, new_size):
-        # Simpan elemen lama
-        old_map = []
-        for slot in self.map:
-            if slot is not None and slot != "deleted":
-                old_map.extend(slot)
-
-        # Buat tabel baru
-        self.size = new_size
-        self.map = [None] * self.size
-
-        # Masukkan elemen ke tabel baru dengan mempertahankan urutan asli
-        for key_value in old_map:
-            self.add(key_value[0], key_value[1])
+maka, fungsi ini akan mengembalikan nilai 3, karena node leaf paling dalam adalah 29 dengan depth 3. 
 
 
-def main():
-    ht = HashTable()
-    # isi hash table
-    ht.add(71210699, "Andreas")
-    ht.add(71210683, "Yandi")
-    ht.add(71210689, "Gian")
+## Test Case
+    root = generate_tree(840)
+    print(f"hasil plus minus = {plus_minus(root)}")
+    print(f"leaf paling dalam = {find_deepest_leaf(root)}")
+    print()
+    root = generate_tree(1200)
+    print(f"hasil plus minus = {plus_minus(root)}")
+    print(f"leaf paling dalam = {find_deepest_leaf(root)}")
+    print()
+    root = generate_tree(8440)
+    print(f"hasil plus minus = {plus_minus(root)}")
+    print(f"leaf paling dalam = {find_deepest_leaf(root)}")
+    print()
+    root = generate_tree(53)
+    print(f"hasil plus minus = {plus_minus(root)}")
+    print(f"leaf paling dalam = {find_deepest_leaf(root)}")
+    print()
 
-    print("==== HASH TABLE SEBELUM DIRESIZE ====\n")
-    ht.print_all()
-    print(f"\nmahasiswa dengan NIM 71210683 adalah {ht.get_data(71210683)}\n")
+## Output
+    PS C:\Users\Gian\Documents\ukdw\ukdw smt5\asdos\minggu12d> python .\kj.py
+    hasil plus minus = 1321
+    leaf paling dalam = 5
 
-    # resize hash table
-    ht.resize(20)
+    hasil plus minus = 2145
+    leaf paling dalam = 6
 
-    print("==== HASH TABLE SETELAH DIRESIZE ====\n")
-    ht.print_all()
-    print(f"\nmahasiswa dengan NIM 71210683 adalah {ht.get_data(71210683)}")
+    hasil plus minus = 13505
+    leaf paling dalam = 4
 
-
-if __name__ == "__main__":
-    main()
+    hasil plus minus = -53
+    leaf paling dalam = 0
